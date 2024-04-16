@@ -42,4 +42,6 @@ def gpt(content):
     
     return response
     
-
+if __name__ == "__main__":
+    markdown_file = sys.argv[1]
+    process_markdown(markdown_file)
