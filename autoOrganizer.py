@@ -1,13 +1,13 @@
 import os
 import sys
-from openai import OpenAI
+import openai
 from datetime import datetime
 
 
 
-client = OpenAI(
+client = openai.OpenAI(
     api_key=os.getenv('API_KEY'),
-    organization='org-Z7YrIy4253APn5aYMIYhNLPI',
+    organization='org-yVptBVbE45uqNqJ0HWV0BByo',
 )
 
 
@@ -39,21 +39,24 @@ def gpt(content):
     print(os.getenv('API_KEY'))
     
     response = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": combination,
-        }
-    ],
-    model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": combination,
+            }
+        ],
+        model="gpt-3.5-turbo",
     )
 
-    # Assuming the response contains the desired text in the first choice's message content
-    return response['choices'][0]['message']['content']
+    # Correctly accessing the response data
+    if response.choices:
+        return response.choices[0].message.content
+    else:
+        return "No response from API."
     
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         markdown_file = sys.argv[1]
         process_markdown(markdown_file)
     else:
-        print("No file specified")
+        print("No file specified.")
